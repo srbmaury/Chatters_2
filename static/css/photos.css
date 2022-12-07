@@ -1,0 +1,18 @@
+.card-width{
+    width: 18rem;
+}
+
+.photos-box{
+    width:900px;
+    margin-left: 30vw;
+}
+.photo{
+    display: inline;
+}
+.img{
+    margin:10px;
+    width:200px;
+    height:200px;
+    border:1px solid black;
+    border-radius:5px;
+}

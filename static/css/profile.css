@@ -1,0 +1,20 @@
+.changepassword, .editprofile{
+    position: absolute;
+    background-color: white !important;
+    width:550px;
+    margin:auto;
+    margin-top: -200px;
+    margin-left: 50px;
+    padding:20px;
+    border-radius: 10px;
+    z-index:1000;
+    border: 2px solid black;
+    visibility: hidden;
+}
+#changepassword, #editprofile{
+    color: blue;
+    cursor: pointer;
+}
+#cross{
+    font-size: 26px;
+}

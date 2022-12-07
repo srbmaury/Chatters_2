@@ -1,0 +1,112 @@
+{% extends 'feed/base.html'%}
+{% load static%}
+{% load humanize %}
+{% block content%}
+    <link rel='stylesheet' href="{% static '../static/css/home.css' %}">
+    <link rel='stylesheet' href="{% static '../static/css/chatbox.css' %}">
+    <div id="whole-content">
+        <div id="user-div">
+            <a href="{%url 'profile' %}">
+              <div class=" card mx-3 my-3 card-width">
+                <div class="card-body">
+                  <span>
+                    <img class='accountimg profileimg' value="{{user.first_name}} {{user.last_name}}" src="{{user.profile.image.url}}" alt='profile image'>
+                  </span>
+                  <div id="names">
+                    <a>{{user.first_name}} {{user.last_name}} 
+                      <div style="color:rgb(156, 147, 147);">
+                        @{{user.username}}
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="card mx-3 my-5 card-width">
+                <ul class="list-group list-group-flush">
+                    <a href = "{%url 'home' %}">
+                        <li class="list-group-item">
+                            Home
+                        </li>
+                    </a>
+                    <a href = "{%url 'show_profiles' %}">
+                        <li class="list-group-item">
+                            People
+                        </li>
+                    </a>
+                    <a href = "{%url 'photos' %}">
+                        <li class="list-group-item">
+                            Photos
+                        </li>
+                    </a>
+                    <a href = "{%url 'notifications' %}">
+                        <li class="list-group-item">
+                            Notifications
+                        </li>
+                    </a>
+                    <a href = "{%url 'profile' %}">
+                        <li class="list-group-item">
+                            Profile
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li class="list-group-item">
+                            Chats
+                        </li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="height:75px"></div>
+        <div id="otheruser">
+            <img style="border-radius: 200px" width='40px' height='40px' border-radius:20px;' src="{{other_user.profile.image.url}}" alt='profile image'  value="{{other_user.first_name}} {{other_user.last_name}}" class="profileimg">
+            <span style="font-size:20px;">{{other_user.username}}</span>
+        </div>
+        <div id="messages">
+            {%for chat in chat_list%}
+                <div style="width:500px; display:block;">
+                    {%if chat.receiver == user and chat.sender == other_user %}
+                        <div class="chat-text">
+                            {{chat.text}}
+                        </div>
+                    {%elif chat.sender == user and chat.receiver == other_user %}
+                        <div class="chat-text" style="margin-left:65px; background-color: azure;">
+                            {{chat.text}}
+                        </div>
+                    {%endif%}
+                </div>
+            {%endfor%}
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+            <div id="typing-box">
+                <textarea name="text" cols="40" rows="1" maxlength="500" id="id_text" spellcheck="true"></textarea>
+                <button class="btn btn-primary" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+    <script src="{% static '../static/script/chatbox.js' %}"></script>
+    <script>
+        $("#searchinput").keyup( function() {
+            var searchQuery = $("#searchinput").val();
+            if(searchQuery.length === 0){
+                $('#searchbox').hide();
+            }else{
+                $('#searchbox').show();
+            }
+        
+            $.ajax({
+                type:"POST",
+                url: "../../search/",
+                data:{
+                    id: searchQuery
+                },
+                success: function(data){
+                    formStringbase(data);
+                }
+            })
+        });
+    </script>
+    
+{%endblock content%}

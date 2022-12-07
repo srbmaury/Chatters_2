@@ -1,0 +1,38 @@
+#typing-box{
+    top:82vh;
+    left:40vw;
+    font-size: 25px;
+    position: fixed;
+    display: inline-flex;
+}
+textarea{
+    width:400px;
+    resize: none;
+}
+#messages{
+    padding:5px;
+    width:500px;
+    height:60vh;
+    margin-left:40vw;
+    border-radius: 0 0 10px 10px;
+    display:flexbox;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    background-color:rgb(202, 215, 233);
+}
+.chat-text{
+    max-width:400px;
+    margin:2%;
+    padding:3px;
+    border-radius: 5px;
+    background-color: rgb(236, 248, 248);
+}
+#otheruser{
+    border-radius: 5px 5px 0 0;
+    border: 0.7px solid black;
+    border-bottom: 0px;
+    padding:10px;
+    width:500px;
+    margin-left:40vw;
+    background-color: white;
+}

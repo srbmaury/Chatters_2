@@ -1,0 +1,134 @@
+{% extends 'feed/base.html'%}
+{% load static%}
+{% load humanize %}
+{% block content%}
+    <link rel='stylesheet' href="{% static '../static/css/home.css' %}">
+    <div id="whole-content">
+        <div id="user-div">
+            <a href="{%url 'profile' %}">
+              <div class=" card mx-3 my-3 card-width">
+                <div class="card-body">
+                  <span>
+                    <img class='accountimg profileimg' value="{{user.first_name}} {{user.last_name}}" src="{{user.profile.image.url}}" alt='profile image'>
+                  </span>
+                  <div id="names">
+                    <a>{{user.first_name}} {{user.last_name}} 
+                      <div style="color:rgb(156, 147, 147);">
+                        @{{user.username}}
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="card mx-3 my-5 card-width">
+                <ul class="list-group list-group-flush">
+                    <a href = "{%url 'home' %}">
+                        <li class="list-group-item active">
+                            Home
+                        </li>
+                    </a>
+                    <a href = "{%url 'show_profiles' %}">
+                        <li class="list-group-item">
+                            People
+                        </li>
+                    </a>
+                    <a href = "{%url 'photos' %}">
+                        <li class="list-group-item">
+                            Photos
+                        </li>
+                    </a>
+                    <a href = "{%url 'notifications' %}">
+                        <li class="list-group-item">
+                            Notifications
+                        </li>
+                    </a>
+                    <a href = "{%url 'profile' %}">
+                        <li class="list-group-item">
+                            Profile
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li class="list-group-item">
+                            Chats
+                        </li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        <div id="profile-div">
+            <div style="height:75px;"></div>
+            <div class="navbar" id="profile">
+                <span>
+                    <a href="{%url 'profile' %}">
+                        <img value="{{user.first_name}} {{user.last_name}}" class='accountimg profileimg' src="{{user.profile.image.url}}" alt='profile image'>
+                    </a>
+                </span>
+                <a  onclick="postCreate()" id="post_create">
+                    <input class="form-control mr-sm-2 input" type="search" placeholder="What's on your mind, {{user.first_name}}" aria-label="Search">
+                </a>
+            </div>
+        </div>
+        
+        <div id="post-div">
+            {%for post in object_list%}
+                <div class="card post">
+                    {% if post.uname == user%}
+                        <span>
+                            <a href="{%url 'profile' %}">
+                                <img class='accountimg profileimg'  value="{{user.first_name}} {{user.last_name}}"" src="{{user.profile.image.url}}" alt='profile image'>
+                            </a>
+                        </span>
+                    {% else %}
+                        <span>
+                            <a href="{%url 'show_profile' post.uname.username %}"><img class='accountimg profileimg' value="{{post.uname.first_name}} {{post.uname.last_name}}" src="{{post.uname.profile.image.url}}" alt='profile image'></a>
+                        </span>
+                    {%endif%}
+                    <div class="post-details">
+                        <a>{{post.uname}}
+                            <span style="color:rgb(156, 147, 147);">
+                                <br>{{post.datetime|naturaltime}}
+                            </span>
+                        </a>
+                    </div>
+                    <div align="justify">
+                        <img src="{{post.image.url}}" class="postimg">
+                    </div>
+                    <span style="display:inline">
+                        <button name='post_id' value="{{post.id}}" class="like-btn" onclick="Like(this)">
+                            <img width="30px" height="30px" src="{% static '../static/image/like.png' %}" alt="like">
+                        </button>
+                        <span id="{{post.id}}">
+                            {%if post.total_likes > 0 %}
+                                {{post.total_likes}}
+                            {%endif%}
+                        </span>
+                        <button name='apost_id' value="{{post.id}}" style='float:right' class="like-btn" onclick="Save(this)"><img width="30px" height="30px" src="{% static '../static/image/saved.webp' %}" alt="save"></button>
+                    </span>
+                    <div id="caption-card">
+                        {%if post.uname == user%}
+                            <a href="../../profile/" class="caption">
+                                {{post.uname}}
+                            </a>
+                        {%else%}
+                            <a href="../../{{post.uname}}/show_profile/" class="caption">
+                                {{post.uname}}
+                            </a>
+                        {%endif%}
+                        {{post.caption}}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="suggestions">
+            <div class="card card-width">
+                <div class="suggestions-text">Suggestions for you</div>
+                <ul class="list-group list-group-flush" id = "Suggestions">
+                </ul>
+            </div>
+        </div>
+        <div class="center">You are all caught up.</div>
+        <script src="{% static '../static/script/home.js' %}"></script>
+    </div>
+{%endblock content%}

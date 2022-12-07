@@ -1,0 +1,92 @@
+{% extends 'feed/base.html'%}
+{% load static%}
+{% load humanize %}
+{% block content%}
+    <link rel='stylesheet' href="{% static '../static/css/home.css' %}">
+    <link rel='stylesheet' href="{% static '../static/css/photos.css' %}">
+    <div id="whole-content">
+        <div id="user-div">
+            <a href="{%url 'profile' %}">
+              <div class=" card mx-3 my-3 card-width">
+                <div class="card-body">
+                  <span>
+                    <img class='accountimg profileimg' value="{{user.first_name}} {{user.last_name}}" src="{{user.profile.image.url}}" alt='profile image'>
+                  </span>
+                  <div id="names">
+                    <a>{{user.first_name}} {{user.last_name}} 
+                      <div style="color:rgb(156, 147, 147);">
+                        @{{user.username}}
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="card mx-3 my-5 card-width">
+                <ul class="list-group list-group-flush">
+                    <a href = "{%url 'home' %}">
+                        <li class="list-group-item">
+                            Home
+                        </li>
+                    </a>
+                    <a href = "{%url 'show_profiles' %}">
+                        <li class="list-group-item">
+                            People
+                        </li>
+                    </a>
+                    <a href = "{%url 'photos' %}">
+                        <li class="list-group-item active">
+                            Photos
+                        </li>
+                    </a>
+                    <a href = "{%url 'notifications' %}">
+                        <li class="list-group-item">
+                            Notifications
+                        </li>
+                    </a>
+                    <a href = "{%url 'profile' %}">
+                        <li class="list-group-item">
+                            Profile
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li class="list-group-item">
+                            Chats
+                        </li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="photos-box">
+        <div style="height:100px;"></div>
+        <h1>Photos:</h1>
+        {%for post in posts%} 
+            <div class="photo">
+                <img src="{{post.image.url}}" class='img' alt="{{post.image}}">
+            </div>
+        {%endfor%}
+    </div>
+    <script>
+        img()
+        $("#searchinput").keyup( function() {
+            var searchQuery = $("#searchinput").val();
+            if(searchQuery.length === 0){
+                $('#searchbox').hide();
+            }else{
+                $('#searchbox').show();
+            }
+        
+            $.ajax({
+                type:"POST",
+                url: "../search/",
+                data:{
+                    id: searchQuery
+                },
+                success: function(data){
+                    formStringbase(data);
+                }
+            })
+        });
+    </script>
+{%endblock content%}

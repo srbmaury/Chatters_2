@@ -1,0 +1,128 @@
+{% extends 'feed/base.html' %}
+{% load static %}
+{%block content%}
+    <div style="margin-top:60px; position: fixed;" class="hidden">
+        <a href="{%url 'profile' %}"">
+          <div class=" card mx-3 my-3" style="width: 18rem;">
+            <div class="card-body">
+              <span>
+                <img class='accountimg profileimg' value="{{user.first_name}} {{user.last_name}}" src="{{user.profile.image.url}}" alt='profile image'>
+              </span>
+              <div style="margin-top:-55px;width:200px;margin-left:80px;">
+                <a>{{user.first_name}} {{user.last_name}} 
+                  <div style="color:rgb(156, 147, 147);">
+                    @{{user.username}}
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </a>
+        <div class="card mx-3 my-5" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+                <a href = "{%url 'home' %}">
+                    <li class="list-group-item">
+                        Home
+                    </li>
+                </a>
+                <a href = "{%url 'show_profiles' %}">
+                    <li class="list-group-item active">
+                        People
+                    </li>
+                </a>
+                <a href = "{%url 'photos' %}">
+                    <li class="list-group-item">
+                        Photos
+                    </li>
+                </a>
+                <a href = "{%url 'notifications' %}">
+                    <li class="list-group-item">
+                        Notifications
+                    </li>
+                </a>
+                <a href = "{%url 'profile' %}">
+                    <li class="list-group-item">
+                        Profile
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="list-group-item">
+                        Chats
+                    </li>
+                </a>
+            </ul>
+        </div>
+    </div>
+    <br>
+    <form method = "POST">
+        <div style="margin-left:30%; width:45%; border-radius: 2px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="people-nearby">
+                        <br><br>
+                        <h3>All Users:</h3>
+                        {%for curr_user in users%}
+                            <div class="nearby-user">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 mx-3">
+                                        <img src="{{curr_user.profile.image.url}}"  value="{{curr_user.first_name}} {{curr_user.last_name}}" alt="user" class="profile-photo-lg profileimg">
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-6">
+                                        <h5>
+                                            <div class="profile-link" style="color:#007bff">{{curr_user.first_name}} {{curr_user.last_name}}
+                                            </div>
+                                        </h5>
+                                        <p>@{{curr_user.username}}</p>
+                                        <p class="text-muted">{{curr_user.profile.bio}}</p>
+                                        <p class="text-muted">LAST LOGIN: {{curr_user.last_login}}</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        {%csrf_token%}
+                                        {%if curr_user.username == user.username%}
+                                            <button class="btn btn-primary">
+                                                <a href = "{% url 'profile' %}" style="color:white;">
+                                                    View Profile
+                                                </a>
+                                            </button>
+                                        {%else%}
+                                            <button class="btn btn-primary">
+                                                <a href = "{% url 'show_profile' curr_user.username %}" style="color:white;">
+                                                    View Profile
+                                                </a>
+                                            </button>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                        {%endfor%}
+                    </div>
+            	</div>
+        	</div>
+        </div>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="{% static '../static/script/main.js' %}"></script>
+    <script>
+        img()
+        $("#searchinput").keyup( function() {
+            var searchQuery = $("#searchinput").val();
+            if(searchQuery.length === 0){
+                $('#searchbox').hide();
+            }else{
+                $('#searchbox').show();
+            }
+
+            $.ajax({
+                type:"POST",
+                url: "../search/",
+                data:{
+                    id: searchQuery
+                },
+                success: function(data){
+                    formStringbase(data);
+                }
+            })
+        });
+    </script>
+{%endblock content%}

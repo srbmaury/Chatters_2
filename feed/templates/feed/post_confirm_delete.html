@@ -1,0 +1,49 @@
+{% extends 'feed/base.html'%}
+{% load static%}
+{% block content%}
+    <div style="margin-top:60px; position: fixed;" class="hidden">
+        <a href="{%url 'profile' %}">
+          <div class=" card mx-3 my-3" style="width: 18rem;">
+            <div class="card-body">
+              <span>
+                <img class='accountimg profileimg' value="{{user.first_name}} {{user.last_name}}" src="{{user.profile.image.url}}" alt='profile image'>
+              </span>
+              <div style="margin-top:-55px;width:200px;margin-left:80px;">
+                <a>{{user.first_name}} {{user.last_name}} 
+                  <div style="color:rgb(156, 147, 147);">
+                    @{{user.username}}
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </a>
+        <div class="card mx-3 my-5" style="width: 18rem;">
+          <ul class="list-group list-group-flush">
+            <a href = "{%url 'home' %}"><li class="list-group-item">Home</li></a>
+            <a href = "{%url 'show_profiles' %}"><li class="list-group-item">People</li></a>
+            <a href = "#"><li class="list-group-item">Photos</li></a>
+            <a href = "{%url 'notifications' %}"><li class="list-group-item">Notifications</li></a>
+            <a href = "{%url 'profile' %}"><li class="list-group-item">Profile</li></a>
+            <a href="#"><li class="list-group-item">Settings</li></a>
+          </ul>
+        </div>
+    </div>
+    <div style="margin-left:30%; width:40%;">
+        <div style="height:75px;"></div>
+        
+        <form method = "POST">
+            {%csrf_token%}
+            <fieldset class = 'form-group'>
+                <legend class = "border-bottom mb-4">Confirm Delete</legend>
+            </fieldset>
+            <div class = "form-group">
+                <button class = "btn btn-outline-danger" type = "submit">Delete</button>
+                <a href = "{% url 'profile' %}"><span class = "btn btn-outline-info">Cancel</span></a>
+                <br><br>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static '../static/script/reportaproblem.js' %}"></script>
+{% endblock content%}

@@ -1,0 +1,138 @@
+{% extends 'feed/base.html' %}
+{%load static%}
+{% block content%}
+
+    <div style="margin-top:60px; position: fixed;" class="hidden">
+        <a href="{%url 'profile' %}"">
+            <div class=" card mx-3 my-3" style="width: 18rem;">
+                <div class="card-body">
+                    <span>
+                        <img class='accountimg profileimg' value="{{user.first_name}} {{user.last_name}}"
+                            src="{{user.profile.image.url}}" alt='profile image'>
+                    </span>
+                    <div style="margin-top:-55px;width:200px;margin-left:80px;">
+                        <a>{{user.first_name}} {{user.last_name}}
+                            <div style="color:rgb(156, 147, 147);">
+                                @{{user.username}}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div class="card mx-3 my-5" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+                <a href="{%url 'home' %}">
+                    <li class="list-group-item">
+                        Home
+                    </li>
+                </a>
+                <a href="{%url 'show_profiles' %}">
+                    <li class="list-group-item">
+                        People
+                    </li>
+                </a>
+                <a href = "{%url 'photos' %}">
+                    <li class="list-group-item">
+                        Photos
+                    </li>
+                </a>
+                <a href="#">
+                    <a href = "{%url 'notifications' %}">
+                        <li class="list-group-item">
+                            Notifications
+                        </li>
+                    </a>
+                </a>
+                <a href="{%url 'profile' %}">
+                    <a href = "{%url 'profile' %}">
+                        <li class="list-group-item">
+                            Profile
+                        </li>
+                    </a>
+                </a>
+                <a href="#">
+                    <li class="list-group-item">
+                        Chats
+                    </li>
+                </a>
+            </ul>
+        </div>
+    </div>
+<br>
+<br>
+<br>
+    <div style="margin-left:30%; width:45%;">
+        <div class='media'>
+            <img width="150px" height="150px" class='rounded-circle account-img img-fluid profileimg'
+                src="{{curruser.profile.image.url}}" value="{{curruser.first_name}} {{curruser.last_name}}" alt='profile image'>
+            <div style="margin-left:100px;">
+                <div style="font-weight: 600; font-size: 30px;">
+                    {{curruser.username}}
+                    <button id="followbtn" class="btn btn-primary btn-sm mx-5" value="{{curruser.id}}" onclick="follow(this)">Follow</button>
+                    <a style='font-size:20px' href = "{%url 'chat' curruser.username %}">Message</a>
+                </div>
+                <div style="font-size: 17px; margin-top:3px;">
+                    <span style="font-weight:600;">{{posts_list|length}}</span>
+                    {%if posts_list|length > 1 %}
+                        Posts
+                    {% else %}
+                        Post
+                    {% endif %}
+                    <span style="margin-left:50px;" id="followers" class="{{curruser.id}}"></span>
+                    <span style="margin-left:50px;" id="following" class="{{curruser.id}}"></span>
+                </div>
+                <div style="width:500px; font-size: 17px; margin-top:3px; font-weight:600;">
+                    {{curruser.first_name}} {{curruser.last_name}}
+                </div>
+                <div style="width:500px; font-size: 17px; margin-top:3px;">
+                    {{curruser.profile.bio}}
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <hr>
+        <div style="transform: translate(43%, 0); font-size: 18px;">
+            <span style="border-top:2px solid black;">
+                <svg aria-label="Posts" class="_ab6-" color="black" fill="black" height="24" role="img" viewBox="0 0 24 24" width="24">
+                    <rect fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" width="18" x="3" y="3"></rect>
+                    <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        x1="9.015" x2="9.015" y1="3" y2="21"></line>
+                    <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        x1="14.985" x2="14.985" y1="3" y2="21"></line>
+                    <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21"
+                        x2="3" y1="9.015" y2="9.015"></line>
+                    <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21"
+                        x2="3" y1="14.985" y2="14.985"></line>
+                </svg>
+                POSTS
+            </span>
+        </div>
+        <br>
+        {%for post in posts_list %}
+            <div style="margin:auto; width:450px; border:1px solid rgb(224, 214, 214); border-radius:5px; background-color: white; margin-bottom:10px;">
+                <div class="card-header" style="background-color: white;">
+                    {{post.datetime}}
+                </div>
+
+                <div align="justify">
+                    <img style="display:flex; margin: auto; width:100%; height:350px;" src="{{post.image.url}}">
+                </div>
+                <span style="display:inline">
+                    <button name='post_id' value="{{post.id}}" style='outline: none; background:none; border:none; margin-left:20px; margin-bottom:10px; max-width: 70px; display:inline-flexbox;' onclick="like2(this)">
+                        <img width="30px" height="30px" src="{% static '../static/image/like.png' %}" alt="like">
+                    </button>
+                    <span id="{{post.id}}">
+                        {%if post.total_likes > 0 %}
+                            {{post.total_likes}}
+                        {%endif%}
+                    </span>
+                    <button name='apost_id' value="{{post.id}}" style='float:right; outline: none; background:none; border:none; margin-left:20px; margin-bottom:10px; max-width: 70px; display:inline-flexbox;' onclick="Save(this)"><img width="30px" height="30px" src="{% static '../static/image/save.webp' %}" alt="save"></button>
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+    <script src="{% static '../static/script/show_profile.js' %}"></script>
+{%endblock content%}
