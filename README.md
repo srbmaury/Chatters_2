@@ -17,6 +17,25 @@ A social meida site using django with email authenticated login system where use
 
 Default profile picture for each user is provided by [Multiavatar API](https://api.multiavatar.com/).
 
+<details>
+<summary>Photos</summary>
+  
+![Screenshot 2023-10-04 085033](https://github.com/srbmaury/Chatters_2/assets/85755081/d4203045-74a3-4d5b-bfce-845885f6a526)
+
+![Screenshot 2023-10-04 085042](https://github.com/srbmaury/Chatters_2/assets/85755081/3bc0c5e0-3db8-43da-858c-f98643a62710)
+
+![Screenshot 2023-10-04 084753](https://github.com/srbmaury/Chatters_2/assets/85755081/3c8f87f6-12a6-4ca5-83f4-15712ba7517f)
+
+![Screenshot 2023-10-04 084823](https://github.com/srbmaury/Chatters_2/assets/85755081/f766bc7e-f427-42da-878b-e9cc65c25610)
+
+![Screenshot 2023-10-04 084834](https://github.com/srbmaury/Chatters_2/assets/85755081/c9393d4c-bd9c-4a97-957d-3127a1478e7d)
+
+![Screenshot 2023-10-04 084844](https://github.com/srbmaury/Chatters_2/assets/85755081/5a5b7306-0be9-421a-9f77-a1058c3cae78)
+
+![Screenshot 2023-10-04 084922](https://github.com/srbmaury/Chatters_2/assets/85755081/32223763-9b4b-4921-855b-9743c2001c86)
+
+</details>
+
 ## Setup
 
 Clone the repository:
@@ -65,6 +84,17 @@ Once `pip` has finished downloading the dependencies move to project directory:
 ```sh
 (env)$ cd Chatters_2
 ```
+
+Generate a SECRET_KEY using following command
+```
+python manage.py shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'
+```
+
+Apply migrations to the database with command below :
+```
+(env)$ python manage.py migrate
+```
+
 ### Creating a superuser
 To create a superuser:
 ```sh
@@ -75,7 +105,5 @@ To create a superuser:
 ```sh
 (env)$ python manage.py runserver
 ```
-
-
 
 And navigate to `http://127.0.0.1:8000/`.
