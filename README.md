@@ -51,20 +51,20 @@ $ git clone git@github.com:srbmaury/Chatters_2.git
 pip is the reference Python package manager. It’s used to install and update packages. You’ll need to make sure you have the latest version of pip installed.
 
 ```sh
-py -m pip install --upgrade pip
-py -m pip --version
+python -m pip install --upgrade pip
+python -m pip --version
 ```
 ### Installing virtualenv
 virtualenv is used to manage Python packages for different projects. Using virtualenv allows you to avoid installing Python packages globally which could break system tools or other projects. You can install virtualenv using pip.
 
 ```sh
-py -m pip install --user virtualenv
+python -m pip install --user virtualenv
 ```
 ### Creating a virtual environment
 To create a virtual environment, go to your project’s directory and run venv. If you are using Python 2, you are strongly recommended to use Python 3
 
 ```sh
-py -m venv env
+python -m venv env
 ```
 
 ### Activating a virtual environment
